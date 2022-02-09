@@ -1,0 +1,172 @@
+{
+  "base": {
+    "aws_region": "us-east-1",
+    "django_settings": "backend.settings",
+    "cors": true,
+    "project_name": "bookedfusion",
+    "runtime": "python3.6",
+    "use_precompiled_packages": true,
+    "exclude": [
+      ".local",
+      ".pytest_cache",
+      ".cache",
+      ".idea",
+      ".gitignore",
+      ".coverage",
+      "__pycache__",
+      "README.md",
+      "frontend",
+      "logs",
+      "media",
+      "static",
+      "pocketsphinx-data",
+      "env.py",
+      "*.log",
+      "tests",
+      "lambda_packages"
+    ],
+    "async_response_table_read_capacity": 1,
+    "async_response_table_write_capacity": 1,
+    "bot_events": [
+      {
+        "function": "lexbot.handlers.sms.schedule.handler",
+        "event_source": {
+          "intent": "SMSBot",
+          "invocation_source": "DialogCodeHook"
+        }
+      },
+      {
+        "function": "lexbot.handlers.sms.schedule.handler",
+        "event_source": {
+          "intent": "RescheduleAppointmentIntent",
+          "invocation_source": "DialogCodeHook"
+        }
+      },
+      {
+        "function": "lexbot.handlers.sms.cancel.handler",
+        "event_source": {
+          "intent": "CancelAppointmentIntent",
+          "invocation_source": "DialogCodeHook"
+        }
+      },
+      {
+        "function": "lexbot.handlers.sms.cancel.handler",
+        "event_source": {
+          "intent": "ConfirmCancelAppointmentIntent",
+          "invocation_source": "DialogCodeHook"
+        }
+      },
+      {
+        "function": "lexbot.handlers.sms.cancel.handler",
+        "event_source": {
+          "intent": "UnconfirmCancelAppointment",
+          "invocation_source": "DialogCodeHook"
+        }
+      },
+      {
+        "function": "lexbot.handlers.voice.forward_new_user.handler",
+        "event_source": {
+          "intent": "ForwardNewUserIntent",
+          "invocation_source": "DialogCodeHook"
+        }
+      },
+      {
+        "function": "lexbot.handlers.voice.forward_returning_user.handler",
+        "event_source": {
+          "intent": "ForwardReturningUser",
+          "invocation_source": "DialogCodeHook"
+        }
+      }
+    ],
+    "connect_events": [
+      {
+        "function": "lexbot.handlers.aws_connect.handler",
+        "event_source": {
+          "arn": "arn:aws:connect:us-east-1:029992932068:instance/e7f9f1cf-2fc6-4055-bc22-6967ed18fd90"
+        }
+      }
+    ],
+    //    logging configs
+    "cloudwatch_log_level": "INFO",
+    "cloudwatch_data_trace": true,
+    "cloudwatch_metrics_enabled": true,
+    "log_level": "INFO",
+    "vpc_config": {
+      "SubnetIds": [
+        "subnet-19d5a526",
+        "subnet-62e9156d",
+        "subnet-b9cffbf2"
+      ],
+      // use the private subnet
+      "SecurityGroupIds": [
+        "sg-b8df3fc3"
+      ]
+    },
+    "xray_tracing": false,
+    "s3_bucket": "zappa-hi4ulihbv",
+    "certificate_arn": "arn:aws:acm:us-east-1:029992932068:certificate/bb1961ec-228a-44e3-81fa-e365a965608e",
+    //    "exception_handler": "lexbot.ravenclient.exception_handler",
+    "exception_handler": "zappa_sentry.unhandled_exceptions",
+    "timeout_seconds": 300
+  },
+  "staging": {
+    "extends": "base",
+    "keep_warm": false,
+    // the DynamoDB table name to use for captured async responses; defaults to None (can't capture)
+    "async_response_table": "dev_background_tasks_result",
+    "domain": "s-secure.bookedfusion.com",
+    "environment_variables": {
+      "RUN_ENV": "production",
+      "SENTRY_ENVIRONMENT": "staging",
+      // better exceptions logged with more info
+      "BETTER_EXCEPTIONS": "1",
+      "SENTRY_DSN": "https://b847d7ad741944cfb438e180eaad7e1a:2c2d1c07cd254069b41c8a6130652268@sentry.io/290304",
+      "SENTRY_CAPTURE_LOGS": "0",
+      // todo: remove the secrets from here and set from AWS console
+      "DJANGO_SECRET_KEY": "n&=p*km8lrncs&b1n#3xg$#@=vaw2ozer^j^$4#^3s4*$#4o4l",
+      "DB_PASSWORD": "Icandothis2335$",
+      "DB_USER_NAME": "suremike",
+      "DB_HOST": "bookedfusion-stagin.cwvcak0ax7xv.us-east-1.rds.amazonaws.com",
+      "APP_AWS_ACCESS_KEY_ID": "AKIAQN65X2LSAZDXD2YG",
+      "APP_AWS_SECRET_ACCESS_KEY": "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"
+    }
+  },
+  "production": {
+    // scheduled tasks
+    "events": [
+      {
+        // The function to execute
+        "function": "mailer.tasks.send_reminder_emails",
+        // When to execute it (in cron or rate format)
+        "expression": "rate(5 minutes)"
+      },
+      {
+        "function": "mailer.tasks.send_feedback_emails",
+        "expression": "rate(5 minutes)"
+      },
+      {
+        "function": "openvbx.tasks.delete_older_voicemails",
+        "expression": "rate(1 day)"
+      }
+    ],
+    "extends": "base",
+    // the DynamoDB table name to use for captured async responses; defaults to None (can't capture)
+    "async_response_table": "background_tasks_result",
+    "domain": "secure.bookedfusion.com",
+    "environment_variables": {
+      "RUN_ENV": "production",
+      // better exceptions logged with more info
+      "BETTER_EXCEPTIONS": "1",
+      "SENTRY_ENVIRONMENT": "prod",
+      "SENTRY_DSN": "https://b847d7ad741944cfb438e180eaad7e1a:2c2d1c07cd254069b41c8a6130652268@sentry.io/290304",
+      "SENTRY_CAPTURE_LOGS": "0",
+      // todo: remove the secrets from here and set from AWS console
+      "DJANGO_SECRET_KEY": "n&=p*km8lrncs&b1n#3xg$#@=vaw2ozer^j^$4#^3s4*$#4o4l",
+      "DB_PASSWORD": "Icandothis2335$",
+      "DB_USER_NAME": "suremike",
+      "DB_HOST": "bookedfusion-prod.cwvcak0ax7xv.us-east-1.rds.amazonaws.com",
+      "APP_AWS_ACCESS_KEY_ID": "AKIAQN65X2LSAZDXD2YG",
+      "APP_AWS_SECRET_ACCESS_KEY": "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"
+    }
+  }
+}

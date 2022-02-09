@@ -1,0 +1,9 @@
+[run]
+omit =
+    */.local/*
+    */migrations/*
+    */tests.py
+    */test_*.py
+    */*_test.py
+    */integration_tests/*.py
+    conftest.py

@@ -1,0 +1,371 @@
+.openModalButton, #easy-booking-btn-styled {
+    background-color: #5bc0de;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    min-height: 33px;
+    width: 280px;
+    text-decoration: none;
+    font-weight: 700;
+    color: #fdffff;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border: none;
+    padding: 17px 10px;
+    text-align: center;
+    z-index: 2;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    line-height: normal;
+    min-width: 10px;
+    -webkit-appearance: button;
+    text-transform: none;
+    vertical-align: baseline;
+    align-items: flex-start;
+    box-sizing: border-box;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-indent: 0px;
+    font: 16px Arial;
+    -webkit-writing-mode: horizontal-tb;
+    word-wrap: break-word;
+    content: ' \00bb';
+}
+
+.openModalButton:hover, #easy-booking-btn-styled:hover {
+    background-color: #31b0d5;
+    border-color: #269abc;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.openModalButton:after, #easy-booking-btn-styled:after {
+    content: ' \00bb';
+}
+
+#dropdownMenu1 {
+    width: 100%;
+}
+
+.dropdown-menu2 {
+    width: 100%;
+}
+
+#chooseService {
+    display: none;
+}
+
+#dropdownMenu2 {
+    width: 100%;
+}
+
+#chooseDate {
+    display: none;
+}
+
+#chooseTime {
+    display: none;
+}
+
+#dropdownMenu3 {
+    padding-left: 14px;
+    width: 100%;
+}
+
+.left-aligned {
+    text-align: left;
+}
+
+.right-floated {
+    float: right;
+}
+
+.px-16 {
+    font-size: 16px;
+}
+
+.drop-title-text {
+    position: relative;
+    top: -4px;
+}
+
+.drop-icon-after {
+    position: relative;
+    top: 4px;
+}
+
+.px-20 {
+    font-size: 20px;
+}
+
+.red {
+    color: red;
+}
+
+.blue {
+    color: #0744af;
+}
+
+.grey-clock {
+    position: relative;
+    top: -4px;
+    font-size: 16px;
+    color: black;
+}
+
+.top-0 {
+    top: 0px;
+}
+
+.top-2 {
+    position: relative;
+    top: 2px;
+}
+
+.top-6 {
+    top: 6px;
+}
+
+.top-8 {
+    top: 8px;
+}
+
+.h-42 {
+    height: 42px;
+}
+
+.has-feedback-left {
+    text-align: left;
+}
+
+.icon-on-left {
+    padding-left: 37.5px;
+}
+
+.no-right {
+    right: initial;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+#countrySelect {
+    width: 100%;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+}
+
+.datepicker-style {
+    background-color: initial;
+    border: initial;
+}
+
+.icon-calendar::before {
+    position: relative;
+    content: "\6b";
+    left: 6px;
+}
+
+.circle {
+    /*position: absolute;*/
+    left: 25px;
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    border: 2px solid #f5f5f5;
+    background: #5bc0de;
+    border-radius: 50%;
+    box-sizing: border-box;
+    font-weight: 400;
+    color: #888;
+    text-shadow: 1px 1px 2px #fff;
+    margin: 0;
+    font-size: 20px;
+    padding-bottom: 0px;
+    position: relative;
+    padding-left: 55px;
+    line-height: 1.1;
+    background-color: #fff;
+    display: block;
+    -webkit-margin-before: 1.33em;
+    -webkit-margin-after: 1.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    border-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+#top-calendar {
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    color: #aaa;
+    position: relative;
+    left: 0;
+    width: 40px;
+    text-align: center;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -webkit-margin-before: 1.33em;
+    -webkit-margin-after: 1.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-margin-before: 1.33em;
+    -webkit-margin-after: 1.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    display: inline;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: 30px;
+}
+
+.modal-body {
+    padding-top: 0px;
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 300;
+    position: relative;
+    color: #737373;
+}
+
+#calendar-bars {
+    right: 13px;
+    top: -31px;
+    z-index: 222;
+    cursor: pointer;
+}
+
+#select-date {
+    cursor: pointer;
+    background-color: white;
+
+}
+
+#datepicker {
+    width: 100%;
+}
+
+.separator {
+    display: block;
+    unicode-bidi: isolate;
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+    -webkit-margin-start: auto;
+    -webkit-margin-end: auto;
+    overflow: hidden;
+    height: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    /*border-color: transparent;*/
+    background: #f5f5f5;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    margin-top: 0px;
+    margin-bottom: 20px;
+
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #fff;
+}
+
+.content-inner-first {
+    height: 50px;
+}
+
+.modal-body {
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(245, 245, 245);
+}
+
+td.active.day {
+    background-color: #5bc0de;
+    background-image: linear-gradient(to bottom, #5bc0de, #5bc0de);
+}
+
+.timeselect {
+    height: 150px;
+    overflow: auto;
+}
+
+.countryselect {
+    height: 150px;
+    overflow: auto;
+}
+
+#afterSubmit {
+    padding-top: 30px;
+    margin-bottom: 10px;
+}
+
+#time-fit {
+    position: relative;
+    top: -20px;
+    display: inline;
+    font-weight: 600;
+    font-size: 23px;
+    padding-left: px;
+}
+
+.clock-confirm {
+
+    font-size: 4em;
+}
+
+#time-bottom {
+    font-size: 0.7em;
+    padding-left: 20px;
+}
+
+.confirm {
+    color: #888;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.confirm-link {
+    font-size: 0.8em;
+    text-decoration: underline;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.popup-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.popup-modal-content {
+    margin: 15px auto; /* 15% from the top and centered */
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+@media only screen and (max-width: 600px) {
+    .popup-modal-content {
+        width: 100%;
+        margin: 15px auto;
+    }
+}

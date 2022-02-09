@@ -1,0 +1,12 @@
+[submodule "frontend/admin_panel"]
+	path = frontend/admin_panel
+	url = git@gitlab.com:bfbooking/easy_appointments_admin_panel.git
+[submodule "frontend/booking"]
+	path = frontend/booking
+	url = git@gitlab.com:bfbooking/easy_appointments_booking.git
+[submodule "zappa"]
+	path = zappa
+	url = git@github.com:jnoortheen/zappa.git
+[submodule "rasa_bot/backend"]
+	path = rasa_bot/backend
+	url =  git@gitlab.com:suremike/receptionist-assist.git

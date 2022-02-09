@@ -1,0 +1,26 @@
+{% extends 'feedback/base.html' %}
+
+{% block title %}Review Us{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="box">
+        <h4>Thank You! We&#39;re so happy to hear that you had a great experience. Please take a moment to review us on
+            Yelp or Google if you haven&#39;t done so already. We would really appreciate it.<br/>
+            &nbsp;</h4>
+        <p>
+            <a href="{{ feedbackconfig.google_rateus_link }}">
+                <img style="margin: 0px auto;" alt="" border="0" class="img-responsive" height="156"
+                     src="https://s3.amazonaws.com/bookedfusion.com/images/review-us-on-google.jpg"/>
+            </a>
+        </p>
+
+        <p>
+            <a href="{{ feedbackconfig.yelp_rateus_link }}">
+                <img style="margin: 0px auto;" alt="" border="0" class="img-responsive" height="156"
+                     src="https://s3.amazonaws.com/bookedfusion.com/images/review-us-on-yelp.png"/>
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}

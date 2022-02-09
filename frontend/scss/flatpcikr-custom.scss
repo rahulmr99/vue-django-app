@@ -1,0 +1,45 @@
+$dayWidth: 34px; /*pixel square for each day - default is 39 */
+$smallDayWidth: 30px; /*pixel square for each day - default is 39 */
+$width: $dayWidth * 7;
+$smallWidth: $smallDayWidth * 7;
+
+.flatpickr-calendar {
+  width: $width;
+}
+
+.dayContainer {
+  width: $width;
+  min-width: $width;
+  max-width: $width;
+}
+
+.flatpickr-days {
+  width: $width;
+}
+
+.flatpickr-day {
+  max-width: $dayWidth;
+  height: $dayWidth;
+  line-height: $dayWidth;
+}
+
+.flatpickr-calendar.small-flatpickr-calendar {
+  width: $smallWidth;
+  top: 0;
+}
+
+.small-flatpickr-days > .dayContainer {
+  width: $smallWidth;
+  min-width: $smallWidth;
+  max-width: $smallWidth;
+}
+
+.small-flatpickr-days {
+  width: $smallWidth;
+}
+
+.small-flatpickr-day {
+  max-width: $smallDayWidth;
+  height: $smallDayWidth;
+  line-height: $smallDayWidth;
+}

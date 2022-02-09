@@ -1,0 +1,9 @@
+// Here you can add other styles
+.modal-lg {
+  max-width: $modal-lg;
+}
+
+.form-group.required label:after {
+  content: "*";
+  color: red;
+}

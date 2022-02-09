@@ -1,0 +1,30 @@
+# This sample file is the contribution of Mathias Beke.
+# To learn how to configure Caddy, go to https://caddyserver.com/docs
+
+# Catch-all vhost
+:8081 {
+    root /home/ubuntu/www/admin_panel/dist/
+    gzip
+#    log /home/ubuntu/www/admin_panel/log.txt
+#    err ./home/ubuntu/www/admin_panel/error.log
+}
+:8082 {
+    root /home/ubuntu/www/booking/dist/
+    gzip
+#    access ./home/ubuntu/www/booking/access.log
+#    err ./home/ubuntu/www/booking/error.log
+}
+
+
+# Specify your own vhosts like this:
+# example.com {
+#
+#     root /abosulte/path/to/htaccessdocs
+#
+#     # PHP-FPM
+#     fastcgi / 127.0.0.1:9000 php
+#
+#     access /var/log/caddy/example.com.access.log
+#     err /var/log/caddy/example.com.error.log
+#
+# }

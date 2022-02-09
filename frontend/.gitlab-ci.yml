@@ -1,0 +1,37 @@
+image: node:10-alpine
+# to run locally: sudo docker run -v $(pwd):/root/app -it node:alpine /bin/sh
+
+cache:
+  paths:
+  - node_modules/
+
+variables:
+  AWS_ACCESS_KEY_ID: "AKIAI6NSJANTMW7LDO6A"
+  AWS_SECRET_ACCESS_KEY: "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"
+
+before_script:
+- apk add python sassc py2-pip
+- pip install -U awscli
+- yarn cache clean
+- yarn install --frozen-lockfile
+- yarn build
+
+staging:
+  type: deploy
+  script:
+  - cp `find ./dist/index.*.html -type f -print` ./dist/index.html
+  - aws s3 sync ./dist/ s3://s-app.bookedfusion.com/ --cache-control 'max-age=604800,no-transform, public' --acl public-read --delete
+  - aws s3 website s3://s-app.bookedfusion.com/ --index-document index.html
+  - aws cloudfront update-distribution --id EDTLF8X3KHNNH --default-root-object `find ./dist/index.*.html -type f -exec basename {} \;`
+
+  only:
+  - master
+
+production:
+  type: deploy
+  script:
+  - aws s3 sync ./dist/ s3://app.bookedfusion.com/ --cache-control 'max-age=604800,no-transform, public'  --acl public-read --delete
+  - aws cloudfront update-distribution --id E365ZBE7XIJCS5 --default-root-object `find ./dist/index.*.html -type f -exec basename {} \;`
+
+  only:
+  - tags

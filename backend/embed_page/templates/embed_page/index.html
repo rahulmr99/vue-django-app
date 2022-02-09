@@ -1,0 +1,822 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css"/>
+    <link href="{% static 'embed/vendor/new-font/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'embed/css/main.css' %}" rel="stylesheet">
+    <title>Easy Booking</title>
+
+<style>
+.popup-modal{
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.powered {    
+    text-align: right;
+    padding-top: 7px;
+    font-size: 10px;
+    color: #f1e4e4;}
+
+.powered span {    
+    font-weight: bold;
+    display: inline-block;
+    padding-left: 2px;}
+
+</style>
+</head>
+<body style="background-color: rgba(255, 255, 255, 0);">
+<div class="wrapper" style="width: 100%; height: 100%">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" method="post" name="registerForm" target="new">
+                    {% csrf_token %}
+                    <input name="_token" type="hidden" value="fwlqUQRu143eaEr9hUSbUya7P9nLyVTWzgqo2wu3">
+                    <input type="hidden" name="webicode" value="fb9dd2081a">
+                    <input type="hidden" name="memberid" value="6911">
+                    <input type="hidden" name="page" value="registration">
+                    <input type="hidden" name="page_tag" value="formregistration">
+                    <input type="hidden" name="userid" value="0">
+                    <button style="position: relative;top: 10px;z-index: 22;" type="button" class="close"
+                            data-dismiss="modal"
+                            id="closeModal"><span
+                            aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <div class="">
+                        <div class="row" id="beforeSubmit">
+                            <div class="col-sm-6 col-xs-12" style="position: relative;top: 5px;">
+                                <div class="title">
+                                    <div class="content-inner-first" style="">
+                                        <h4><i class="icon-top-calendar" id="top-calendar"></i>
+                                            <span style="color: #888;font-weight: 400; margin-left: 10px;top: -9px;position: relative;font-size: 20px;">Your appointment</span>
+                                            <span style="padding-top:2px;margin-top: 0px;margin-bottom: 0px;top: -20px;padding-left: 0px;border: 2px solid #f5f5f5;background-color: rgb(91, 192, 222);left: 20px;"
+                                                  class="circle" id="#circle1"><span
+                                                    style="left: -1px;top: -5px;position: relative;color:white;padding:2px;font-size: 13px;">1</span></span>
+                                        </h4>
+                                    </div>
+                                    <hr class="separator">
+                                </div>
+                                <div class="content_inner">
+                                    <div id="webinarSchedules">
+                                        {% if not services %}
+                                            <div class="form-group h-42">
+                                                <div class="dropdown" data-for="providerSelect"
+                                                     data-content="Please select a provider"
+                                                     data-trigger="focus" data-placement="bottom"
+                                                     id="providerPopover"
+                                                >
+                                                    <button class="btn btn-default dropdown-toggle left-aligned px-16"
+                                                            type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                        <i class="icon-provider px-20"></i>
+                                                        <span class="value drop-title-text px-16"
+                                                              id="provider-heading"
+                                                              data-for="providerSelect">Choose provider:</span>
+                                                        <i class="fa fa-bars drop-icon-after right-floated px-16"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu2" role="menu"
+                                                        id="providerSelect">
+                                                        <li role="presentation" class="dropdown-header option">
+                                                            Available
+                                                            providers
+                                                        </li>
+                                                        {% for provider in providers %}
+                                                            <li role="presentation" class="option provider-item"
+                                                                data-pk="{{ provider.pk }}">
+                                                                <a role="menuitem" href="javascript:void(0);">
+                                                                <span class="circlie">
+                                                                    <i class="icon-provider top-2"></i>
+                                                                </span>
+                                                                    <span class="text">{{ provider.get_full_name }}</span>
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div id="loadingFirst" class="text-center"
+                                                 style="margin-top: 20px;display: none">
+                                            </div>
+                                        {% endif %}
+                                        <div id="firstbox">
+                                            <div class="form-group h-42" id="chooseService">
+                                                <div class="dropdown" data-for="serviceSelect"
+                                                     data-content="Please select a service"
+                                                     data-trigger="focus" data-placement="bottom"
+                                                     id="servicePopover"
+                                                >
+                                                    <button class="btn btn-default dropdown-toggle left-aligned px-16"
+                                                            type="button" id="dropdownMenu2" data-toggle="dropdown">
+                                                        <i class="icon-service px-20"></i>
+                                                        <span class="value drop-title-text px-16"
+                                                              id="service-heading"
+                                                              data-for="serviceSelect">Choose service:</span>
+                                                        <i class="fa fa-bars drop-icon-after right-floated px-16"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu2" role="menu"
+                                                        id="serviceSelect">
+                                                        <li role="presentation" class="dropdown-header option">
+                                                            Available services
+                                                        </li>
+                                                        {% for service in services %}
+                                                            <li role="presentation" class="option service-item"
+                                                                data-pk="{{ service.id }}">
+                                                                <a role="menuitem" href="javascript:void(0);">
+                                                                <span class="circlie">
+                                                                    <i class="icon-service top-2"></i>
+                                                                </span>
+                                                                    <span class="text">{{ service.name }}</span>
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div id="loadingSecond" class="text-center"
+                                                 style="margin-top: 20px;display: none">
+                                            </div>
+                                            <div id="secondbox">
+                                                <div class="form-group h-42" id="chooseDate">
+                                                    <div class='input-group date form-group has-feedback has-feedback-left'
+                                                         id='datepicker'>
+                                                        <input placeholder="Select Date" id="select-date"
+                                                               type='text'
+                                                               class="form-control icon-on-left  h-42 px-16 "
+                                                               readonly/>
+                                                        <span class="input-group-addon h-42 datepicker-style
+                                                form-control-feedback no-right px-20 top-8"></span>
+                                                        <i class=" form-control-feedback icon-calendar  no-right px-16 top-6"
+                                                           id="cal-endar"></i>
+                                                        <i class="fa fa-bars drop-icon-after right-floated px-16"
+                                                           id="calendar-bars"></i>
+                                                    </div>
+                                                </div>
+                                                <div id="loadingThird" class="text-center"
+                                                     style="margin-top: 20px;display: none">
+                                                </div>
+                                                <div id="thirdbox">
+                                                    <div class="form-group h-42" id="chooseTime">
+                                                        <div class="dropdown" data-for="timeSelect" id="timePopover"
+                                                             data-content="Please choose a time"
+                                                             data-placement="bottom" data-trigger="focus"
+                                                        >
+                                                            <button type="button"
+                                                                    class="btn btn-default dropdown-toggle left-aligned px-16  h-42"
+                                                                    id="dropdownMenu3" data-toggle="dropdown">
+                                                                <i class="fa fa-clock-o grey-clock"></i>
+                                                                <span class="value drop-title-text px-16"
+                                                                      id="time-heading"
+                                                                      data-for="timeSelect">Choose time:</span>
+                                                                <i class="fa fa-bars drop-icon-after right-floated px-16"
+                                                                   style="top: -1px;"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu2 timeselect"
+                                                                role="menu"
+                                                                id="timeSelect">
+                                                                <li role="presentation"
+                                                                    class="dropdown-header option">
+                                                                    <i class="fa fa-clock-o red"></i>
+                                                                    Available time
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6  col-xs-12" style="position: relative;top: -16px;">
+                                <div class="details-div">
+                                    <div class="content-inner-first">
+                                        <h4><i class="icon-name" id="top-calendar"></i>
+                                            <span style="color: #888;font-weight: 400; margin-left: 10px;top: -9px;position: relative;font-size: 20px;">Your details</span>
+                                            <span style="padding-top:2px;margin-top: 0px;margin-bottom: 0px;top: -20px;padding-left: 0px;border: 2px solid #f5f5f5;background-color: rgb(91, 192, 222);left: 20px;"
+                                                  class="circle" id="#circle1"><span
+                                                    style="left: -1px;top: -5px;position: relative;color:white;padding:2px;font-size: 13px;">2</span></span>
+                                        </h4>
+                                    </div>
+                                    <hr class="separator">
+
+                                    <div class="content_inner">
+                                        <div class="form-group has-feedback has-feedback-left">
+                                            <input id="userFirstName" type="text"
+                                                   data-content="Please provide your name"
+                                                   data-placement="bottom"
+                                                   data-trigger="focus"
+                                                   class="form-control icon-on-left  h-42 px-16 "
+                                                   placeholder="Enter Your Full Name"/>
+                                            <i class="form-control-feedback icon-name no-right px-20 top-6"></i>
+                                        </div>
+                                        <div class="form-group has-feedback has-feedback-left">
+                                            <input id="userEmailId" type="text" data-placement="bottom"
+                                                   data-content="Please enter your email"
+                                                   data-trigger="focus"
+                                                   class="form-control icon-on-left  h-42 px-16 "
+                                                   placeholder="Enter Your Email"/>
+                                            <i class="form-control-feedback icon-email no-right px-20 top-6"></i>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="dropdown dropdown-country" data-for="countrySelect"
+                                                 data-trigger="focus" id="countryPopover"
+                                                 data-content="Please select a country" data-placement="bottom"
+                                            >
+                                                <button class="btn btn-default dropdown-toggle h-42 w-100 left-aligned"
+                                                        type="button" id="countryDropDown"
+                                                        data-toggle="dropdown">
+                                                    <span class="indent_input">
+                                                        <i class="icon-world px-20 left-aligned"
+                                                           style="left: -7px;position: relative;"></i>
+                                                    </span>
+                                                    <span class="value drop-title-text px-16" id="selected-country"
+                                                          data-for="countrySelect">Country</span>
+                                                    <i class="fa fa-bars  drop-icon-after right-floated px-16"></i>
+                                                </button>
+                                                <ul class="dropdown-menu countryselect" role="menu"
+                                                    id="countrySelect">
+                                                    {% include 'embed_page/_countries.html' %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback has-feedback-left">
+                                            <input id="userPhoneNumber" type="text"
+                                                   data-content="Please enter your mobile number"
+                                                   data-placement="bottom"
+                                                   data-trigger="focus"
+                                                   class="form-control icon-on-left  h-42 px-16 "
+                                                   placeholder="Enter Your Mobile Number"/>
+                                            <i class="form-control-feedback icon-phone no-right px-20 top-8"></i>
+                                        </div>
+                                        <button id="register_btn"
+                                                style="width: 100%;padding: 12px;font-size: 18px;"
+                                                type="submit"
+                                                class="btn btn-info btn-register">
+                                            BOOK NOW
+                                            <i class="fa fa-angle-right"></i></button>
+                                        <div class="message">
+                                            <p>Your details will be forwarded to the practice, who might
+                                                communicate with you regarding this appointment or their
+                                                services</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row" id="afterSubmit" style="display:none">
+                            <center>
+                                <div class="confirm">Confirmation</div>
+                                <br/>
+                                <icon class="icon-clock clock-confirm"></icon>
+                                <div id="time-fit"><span id="confirmed-date"></span><br/>
+                                    <div id="time-bottom"><span id="confirmed-time"></span>
+                                        {# <a class="confirm-link" href="#/">Cancel</a>#}
+                                        {# <a class="confirm-link" href="#/">Reschedule</a>#}
+                                    </div>
+                                </div>
+                                <br/>
+                                <button id="ical-download-btn" style="width: 30%;padding: 12px;font-size: 18px;"
+                                        type="button"
+                                        class="btn btn-info btn-register">
+                                    Add to iCal/Outlook
+                                </button>
+                                <a id="add-to-google-link" style="width: 30%;padding: 12px;font-size: 18px;"
+                                   type="button" href="#" target="_blank"
+                                   class="btn btn-info btn-register">
+                                    Add to Google
+                                </a>
+                            </center>
+                        </div> -->
+                        
+                        <div class="row" id="afterSubmit" style="display:none">
+                            <div align="center"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+                            
+                            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+                        <img src="https://png.pngtree.com/svg/20170401/52fae5909c.svg" style="
+                            width: 70px;
+                            margin-top: 10px;
+                            margin-bottom: 0px;
+                        ">
+                            <h3 style="
+                            margin-top: 10px;
+                            font-size: 24px;
+                            font-weight: 500;
+                            margin-bottom: 10px;
+                            font-family: 'Roboto', sans-serif;
+                        ">Appointment confirmed</h3>
+                        <p style="
+                            margin-bottom: 0px;
+                            font-size: 15px;
+                            font-weight: 400;
+                            color: #909090;
+                            font-family: 'Roboto', sans-serif;
+                        ">Confirmation email sent to:</p>
+                        <p style="
+                            font-size: 17px;
+                            margin-bottom: 0px;
+                            font-family: 'Roboto', sans-serif;
+                            font-weight: 500;
+                            color: #353535;
+                            margin-bottom: 15px;
+                        " id="user_email"></p>   
+                        </div>
+                        <table style="
+                            border: 1px solid #dadada;
+                            width: 90%;
+                            margin: auto;
+                            border-left: 0px;
+                            border-right: 0px;
+                        ">
+                            <tbody>
+                                <tr style="
+                            vertical-align: middle;
+                        ">
+                                    <td style="
+                            vertical-align: middle;
+                            padding-right: 10px;
+                            text-align: center;
+                        ">
+                                        <span style="
+                            display: block;
+                            font-size: 24px;
+                            font-weight: 600;
+                            padding-top: 5px;
+                            font-family: 'Roboto', sans-serif;
+                        " id="date_day">23</span>
+                                        <span style="
+                            display: block;
+                            line-height: 4px;
+                            padding-bottom: 11px;
+                            font-size: 13px;
+                            padding-top: 3px;
+                            color: #3b77e7;
+                            text-transform: uppercase;
+                            font-family: 'Roboto', sans-serif;
+                        " id="date_month">may</span>
+                                    </td>
+                        
+                        <td style="
+                            vertical-align: middle;
+                        ">
+                            <span style="
+                            display: block;
+                            font-size: 16px;
+                            font-family: 'Roboto', sans-serif;
+                            font-weight: 500;
+                        " id="booking_messgae">Your appointment with freerman's Barber </span><span style="
+                            display: inline-block;
+                            font-size: 15px;
+                            font-family: 'Roboto', sans-serif;
+                            font-weight: 400;
+                            color: #909090;
+                        " id="booking_service">Fresh Summer Cut - Tues at 4:00 PM</span>
+                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <table style="
+                            width: 80%;
+                            margin: auto;
+                            margin-top: 15px;
+                        ">
+                            <tbody><tr>
+                                
+                        <td style="
+                            text-align: center;
+                            font-size: 18px;
+                            color: #3b87ea;
+                            cursor: pointer;
+                            padding-top: 8px;
+                            font-family: 'Roboto', sans-serif;
+                            width: 50%;
+                        " id="add-to-google-link">
+                                <i class="fas fa-calendar-plus" style="
+                            display: block;
+                            padding-bottom: 5px;
+                            padding-top: 5px;
+                        "></i>
+                                    Add to Google Calendar
+                                </td><td style="
+                            text-align: center;
+                            font-size: 18px;
+                            color: #3b87ea;
+                            padding-top: 8px;
+                            font-family: 'Roboto', sans-serif;
+                            width: 50%;
+                            cursor: pointer;
+                        " id="ical-download-btn">
+                                <i class="fas fa-calendar-plus" style="
+                            display: block;
+                            padding-bottom: 5px;
+                            padding-top: 5px;
+                        "></i>Add to iCal</td>
+                            </tr>
+                        </tbody></table>
+                        
+                        <button style="
+                            text-transform: uppercase;
+                            width: 90%;
+                            display: block;
+                            margin: auto;
+                            margin-top: 20px;
+                            margin-bottom: 15px;
+                            padding: 10px;
+                            background: #3b87ea;
+                            font-size: 18px;
+                            color: white;
+                            border-radius: 6px;
+                            border: 0px;
+                            font-family: 'Roboto', sans-serif;
+                        " id="done">Done</button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- <div class="powered" style="cursor: pointer" onclick="window.location='https://www.bookedfusion.com/'">Powered by <span>BOOKEDFUSION</span></div> -->
+        <div class="powered">Powered by
+          <span>BOOKEDFUSION</span></div>
+      </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
+<script>
+  (function () {
+    var serviceId, selectedTimeId, userPhoneNumber, userEmailId, userFirstName, userLastName, userCountryCode, calId,
+      loadedTimes, userCountry
+    var providerId = '{{ provider_id }}' || null
+    var gif = '<img src=\'https://app.webinarjam.net/assets/modal/img/36.gif\'>'
+    var $datepickerElem;
+    var $chooseTimeElem;
+    var $userFirstName;
+    var $userEmailId;
+    var $userPhoneNumber;
+
+      function initVars() {
+          $datepickerElem = $('#datepicker')
+          $chooseTimeElem = $('#chooseTime')
+          $userFirstName = $('#userFirstName')
+          $userEmailId = $('#userEmailId')
+          $userPhoneNumber = $('#userPhoneNumber')
+
+          if (providerId) {
+              $chooseTimeElem.hide()
+              $('#chooseDate').hide()
+              $('#firstbox').show()
+              $('#chooseService').show()
+              $('#service-heading').text('Choose service')
+              $('#select-date').val('')
+              $('#time-heading').text('Choose time')
+          }
+      }
+
+      $(document).ready(function () {
+	      initVars()
+      })
+
+    $('[data-placement="bottom"]').on('show.bs.popover', function () {
+      var $this = $(this)
+      setTimeout(function () {
+        $this.popover('hide')
+      }, 1200)
+    })
+
+    // handle provider select box
+    $(document).on('click', '.provider-item', function () {
+      var $this = $(this)
+      var loader = $('#loadingFirst')
+      loader.html(gif)
+      loader.show()
+
+      providerId = $this.attr('data-pk')
+
+      var serviceContainer = $('#serviceSelect')
+      //clear previously fetched items
+      serviceContainer.find('li.service-item').remove()
+
+      $('#provider-heading').text($this.find('span.text').text())
+      $('#firstbox').hide()
+
+      $.get(
+        '/api/v1/service/get_services/',
+
+        {format: 'json', provider_id: providerId},
+
+        function (data) {
+          for (var i = 0; i < data.length; i++) {
+            serviceData = data[i]
+            //insert new elements with the template
+            serviceContainer.append(
+              '<li role="presentation" class="option service-item" data-pk="' + serviceData.id + '">\n' +
+              '<a role="menuitem" href="javascript:void(0);">\n' +
+              '<span class="circlie">\n' +
+              '  <i class="icon-service top-2"></i>\n' +
+              '</span>\n' +
+              '<span class="text">' + serviceData.name + '</span>\n' +
+              '</a>\n' +
+              '</li>'
+            )
+          }
+
+          loader.hide()
+          $chooseTimeElem.hide()
+          $('#chooseDate').hide()
+          $('#firstbox').show()
+          $('#chooseService').show()
+          $('#service-heading').text('Choose service')
+          $('#select-date').val('')
+          $('#time-heading').text('Choose time')
+        })
+        .fail(function () {
+          alert('Failed to fetch services')
+        })
+    })
+
+    // handle selecting a service from dropdown
+    $(document).on('click', '.service-item', function () {
+      var $this = $(this)
+      serviceId = $this.attr('data-pk')
+
+      // start loader
+      var loadingSecond = $('#loadingSecond')
+      loadingSecond.html(gif)
+      loadingSecond.show()
+
+      // show selected service
+      $('#service-heading').text($this.find('span.text').text())
+      $('#secondbox').hide()
+
+      // request and load available dates
+      $.get(
+        '/api/v1/working_plan/get_disable_dates/',
+        {users: providerId},
+        function (data) {
+          loadingSecond.hide()
+          $('#chooseDate').show()
+          $datepickerElem.datepicker({
+            format: 'mm/dd/yyyy',
+            autoclose: true,
+            clearBtn: true,
+            startDate: '-0d',
+            daysOfWeekDisabled: data
+          }).on('changeDate', function (ev) {
+            var loadingThird = $('#loadingThird')
+            loadingThird.html(gif)
+            loadingThird.show()
+
+            $('.datepicker').hide()
+            $('#cal-endar').show()
+            $chooseTimeElem.hide()
+
+            var $timeSelectElem = $('#timeSelect')
+            // clear old items
+            $timeSelectElem.find('li.time-item').remove()
+            // get available times
+            $.get(
+              '/api/v1/calendar/checkin_booking_date/',
+              {
+                provider_id: providerId,
+                page: 0,
+                daydate: $datepickerElem.datepicker('getUTCDate').toJSON().replace(".000Z", ""),
+                service_id: serviceId,
+                format: 'json'
+              },
+              function (data) {
+                var timeslot_available = true;
+                loadingThird.hide()
+                $chooseTimeElem.show()
+                $('#time-heading').text('Choose time')
+                loadedTimes = data['days'][0]['date']
+                var timeslots;
+                for (var i = 0; i < loadedTimes.length; i++) {
+                    if(loadedTimes[i].time.length == 0){
+                        timeslot_available = false;
+                    }
+                  timeslots = (loadedTimes[i].time.charAt(0) !== "0") ? loadedTimes[i].time : loadedTimes[i].time.substr(1)
+                  $timeSelectElem.append(
+                    '<li role="presentation" class="option time-item" data-id="' + i + '">\n' +
+                    '    <a role="menuitem" href="javascript:void(0);">\n' +
+                    '        <span class="circlie">\n' +
+                    '            <i class="fa fa-clock-o blue"\n' +
+                    '               aria-hidden="true"></i>\n' +
+                    '        </span>\n' +
+                    '        <span class="text">\n' + timeslots +
+                    '        </span>\n' +
+                    '    </a>\n' +
+                    '</li>\n'
+                  )
+                }
+                if(!timeslot_available){
+                    alert('There are no available slots on selected date, Please choose another date')
+                }
+              }
+            ).fail(function () {
+              alert('Failed to fetch availabe times')
+            })
+          })
+
+          $chooseTimeElem.hide()
+          $('#secondbox').show()
+          $('#cal-endar').css('z-index', '5')
+          $('#select-date').val('')
+          $('#time-heading').text('Choose time')
+        }).fail(function () {
+        alert('Failed to fetch available dates')
+      })
+    })
+
+    // handle time selection
+    $(document).on('click', '.time-item', function () {
+      var $this = $(this)
+      selectedTimeId = parseInt($this.attr('data-id'))
+      $('#time-heading').text($this.find('span.text').text())
+    })
+
+    // handle date selection
+    $('#calendar-bars').click(function openDateBox () {
+      $datepickerElem.datepicker('show')
+    })
+
+    // handle country selection
+    $(document).on('click', '#countrySelect > li > a', function () {
+      var $this = $(this)
+      userCountryCode = $this.attr('data-value')
+      userCountry = $this.attr('data-normalized-text')
+      $('#selected-country').text(userCountry)
+    })
+
+    // post form when submit is clicked
+    $('#register_btn').click(function (event) {
+      event.preventDefault()
+
+      var $bookButton = $(this);
+
+      //run validations and show popover in places where value is missing
+      if (!providerId) {
+        $('#providerPopover').popover('show')
+        return
+      }
+      if (!serviceId) {
+        $('#servicePopover').popover('show')
+        return
+      }
+      
+      if (selectedTimeId === null || selectedTimeId === undefined) {
+        $('#timePopover').popover('show')
+        return
+      }
+
+      userFirstName = $userFirstName.val()
+      if(userFirstName) {
+        userFirstName_and_userLastName = userFirstName.split(" ")
+        userLastName = userFirstName_and_userLastName.length > 0 ? userFirstName_and_userLastName[1] : '';
+        userFirstName = userFirstName_and_userLastName.length > 0 ? userFirstName_and_userLastName[0] : '';
+      }
+      
+      
+      if (!userFirstName) {
+        $userFirstName.popover('show')
+        return
+      }
+      userEmailId = $userEmailId.val()
+      if (!userEmailId) {
+        $userEmailId.popover('show')
+        return
+      }
+      if (!($userPhoneNumber.val())) {
+        $userPhoneNumber.popover('show')
+        return
+      }
+      if (!userCountryCode) {
+        $('#countryPopover').popover('show')
+        return
+      }
+      userPhoneNumber = $userPhoneNumber.val()
+
+      var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+      $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              }
+      });
+
+      var data = {
+        name: userFirstName,
+        last_name: userLastName,
+        phone: userPhoneNumber,
+        country_code: userCountryCode,
+        country: userCountry,
+        email: userEmailId,
+        provider: providerId,
+        service: serviceId,
+        datetime: loadedTimes[selectedTimeId].datetime,
+        generalsettings: {{ company_id }}
+      }
+
+      $bookButton.prop('disabled', true);
+
+      // todo start some kind of loader
+      $.post(
+        '/api/v1/customers/', data,
+        function (data) {
+          calId = data.id
+          $('#beforeSubmit').hide()
+          $('#afterSubmit').show()
+
+          // {# update google calendar link #}
+          $('#add-to-google-link').attr(
+            'link', data.google_calendar_link
+          )
+          $("#user_email").text(data.email);
+          
+          $("#date_day").text(data.booking_date);
+          $("#date_month").text(data.booking_month);
+          $("#booking_messgae").text(data.booking_message);
+          bookingService = data.booking_service+" "+ "-" +" "+data.booking_day +" "+ "at" +" "+ data.booking_time
+          $("#booking_service").text(bookingService);
+
+          // {# update confirmation page details #}
+          $('span#confirmed-date').text(loadedTimes[selectedTimeId].date)
+          $('span#confirmed-time').text(loadedTimes[selectedTimeId].time)
+
+          // Enable button
+          $bookButton.prop('disabled', false);
+        }
+      ).fail(function (data) {
+        calId = null
+        $bookButton.prop('disabled', false);
+        try {
+            if (data.responseJSON.error) {
+                alert('Error - ' + data.responseJSON.error)
+            }
+        }
+        catch (e) {
+            alert('Slot is Already Booked. Please choose other time slot.')
+        }
+
+      })
+    })
+
+    $(document).on('click', '#done', function(e){
+      e.preventDefault();
+      $("#closeModal").click();
+      // window.location.reload();
+    })
+
+    $(document).on('click','#add-to-google-link', function(){
+      var link = $(this).attr('link');
+      window.open(link);
+    })
+
+    // {#    ical download button #}
+    $(document).on('click', '#ical-download-btn', function (evt) {
+      evt.preventDefault()
+      $.post(
+        '/api/v1/calendar/' + calId + '/add_to_ical_outlook/?format=json',
+        {},
+        function (data) {
+        
+          var blob = new Blob([data], {type: 'text/calendar'})
+          
+          var link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.download = 'Filename.ics'
+          link.click()
+        }
+      ).fail(function (error) {
+        alert('Failed to download calendar. Try after sometimes.')
+      })
+    })
+
+    // close modal dialog from an embedded site
+    $('#closeModal').click(function () {
+      if (window.parent) {
+        // this message will be received by the client script
+        $(this).find('form').trigger('reset');
+        window.parent.postMessage('closeModalDlg', '*')
+        
+      }
+    })
+
+    // select default country in the list
+    $('#countrySelect > li > a')[0].click()
+  })()
+</script>
+</body>
+
+</html>

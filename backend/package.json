@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "devDependencies": {
+    "dynalite": "^2.1.0"
+  },
+  "scripts": {
+    "local-tunnel": "ssh -R 80:localhost:8001 serveo.net",
+    "run-dynalite": "fab start"
+  }
+}

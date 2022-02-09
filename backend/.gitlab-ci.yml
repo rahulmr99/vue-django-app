@@ -1,0 +1,92 @@
+# docker mimicking lambda environment
+# https://github.com/lambci/docker-lambda
+image: lambci/lambda:build-python3.6
+#image: python:3.6
+
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
+services:
+  - mysql:5.7
+  - name: amazon/dynamodb-local:latest
+    alias: dynamodb
+
+variables:
+  MYSQL_DATABASE: easybookingdb
+  MYSQL_ROOT_PASSWORD: password
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  #  WORKON_HOME: "$CI_PROJECT_DIR/.cache/venv"
+  DB_HOST: "mysql"
+  DB_PASSWORD: "password"
+  DJANGO_SECRET_KEY: "n&=p*km8lrncs&b1n#3xg$#@=1234d3r4dd23asdf4asfasd^j^$4#^3s4*$#4o4l"
+  AWS_ACCESS_KEY_ID: "AKIAI6NSJANTMW7LDO6A"
+  AWS_SECRET_ACCESS_KEY: "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"
+  APP_AWS_ACCESS_KEY_ID: "AKIAI6NSJANTMW7LDO6A"
+  APP_AWS_SECRET_ACCESS_KEY: "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"
+
+#  # This folder is cached between builds
+#  # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+#cache:
+#  key: "$CI_PROJECT_ID"
+#  paths:
+#    - "$CI_PROJECT_DIR/.cache/pip"
+
+before_script:
+  #  install build dependencies for lambci docker image
+  - yum -y update && yum -y install gcc72-g++ yum-plugin-ovl mysql-devel
+
+  # Print out for debugging
+  - python -V
+  - uname -a
+  - pwd
+  - echo ~
+
+  # install project dependencies
+  - pip install pew
+  - pew new bf -r requirements.txt
+  - pew new bf-prod -r requirements.txt
+  - which python
+  - pew in bf echo $PIP_CACHE_DIR
+  - git status && ls -alh
+
+test:
+  variables:
+    RUN_ENV: "test"
+    DYNAMO_DB_HOST: "http://dynamodb:8000"
+  script:
+    - pew in bf pip install -r test-requirements.txt
+    - pew in bf pip install fabric3
+    #- pew in bf python manage.py clean_pyc
+    - pew in bf python manage.py makemigrations django_ses
+    #  - pew in bf python manage.py smoke_tests --no-db
+    - pew in bf fab test
+  #  - prospector
+#  artifacts:
+#    paths:
+#    - htmlcov/
+
+staging:
+  type: deploy
+
+  variables:
+    RUN_ENV: "production"
+
+  script:
+    - pew in bf pip install -r dev-requirements.txt
+    - pew in bf fab zappa_deploy
+
+  only:
+    - master
+
+production:
+  type: deploy
+
+  variables:
+    RUN_ENV: "production"
+
+  script:
+    - pew in bf pip install -r dev-requirements.txt
+    - pew in bf fab zappa_deploy:production
+
+  only:
+    - tags

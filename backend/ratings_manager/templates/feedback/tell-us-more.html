@@ -1,0 +1,16 @@
+{% extends 'feedback/base.html' %}
+
+{% block title %}Tell Us More{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="box">
+        <h4>Please tell us more about your experience. Your feedback is valuable to us so that we can improve our
+            service.</h4>
+        <form action="" method="post">
+            <textarea placeholder="Tell us more..." name="{{ form.content.html_name }}"></textarea>
+            <input class="submit" type="submit" value="Submit Feedback"/>
+        </form>
+    </div>
+</div>
+{% endblock %}

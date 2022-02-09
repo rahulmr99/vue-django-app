@@ -1,0 +1,25 @@
+{% extends 'feedback/base.html' %}
+
+{% block title %}Feedback Reports{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="box">
+        <h3>Feedback reports</h3>
+        <table class="table table-hover">
+            <tr>
+                <th>Rating</th>
+                <th>Clicks</th>
+                <th>Percent</th>
+            </tr>
+            {% for r in ratings %}
+            <tr>
+                <td>{{r.name}}</td>
+                <td>{{r.count}}</td>
+                <td>{{r.percent}} %</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
